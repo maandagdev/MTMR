@@ -216,6 +216,7 @@ enum ItemType: Decodable {
     case volume
     case brightness(refreshInterval: Double)
     case weather(interval: Double, units: String, api_key: String, icon_type: String)
+    case moonphase(interval: Double, units: String, api_key: String, icon_type: String)
     case yandexWeather(interval: Double)
     case currency(interval: Double, from: String, to: String, full: Bool)
     case inputsource
@@ -263,6 +264,7 @@ enum ItemType: Decodable {
         case volume
         case brightness
         case weather
+        case moonphase
         case yandexWeather
         case currency
         case inputsource
@@ -320,6 +322,13 @@ enum ItemType: Decodable {
             let api_key = try container.decodeIfPresent(String.self, forKey: .api_key) ?? "32c4256d09a4c52b38aecddba7a078f6"
             let icon_type = try container.decodeIfPresent(String.self, forKey: .icon_type) ?? "text"
             self = .weather(interval: interval, units: units, api_key: api_key, icon_type: icon_type)
+        
+        case .moonphase:
+            let interval = try container.decodeIfPresent(Double.self, forKey: .refreshInterval) ?? 1800.0
+            let units = try container.decodeIfPresent(String.self, forKey: .units) ?? "metric"
+            let api_key = try container.decodeIfPresent(String.self, forKey: .api_key) ?? "32c4256d09a4c52b38aecddba7a078f6"
+            let icon_type = try container.decodeIfPresent(String.self, forKey: .icon_type) ?? "text"
+            self = .moonphase(interval: interval, units: units, api_key: api_key, icon_type: icon_type)
             
         case .yandexWeather:
             let interval = try container.decodeIfPresent(Double.self, forKey: .refreshInterval) ?? 1800.0
