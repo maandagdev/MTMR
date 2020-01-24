@@ -34,6 +34,7 @@ class PomodoroBarItem: CustomButtonTouchBarItem, Widget {
         case rest
         case none
     }
+  
     //Vars are used for pausing the timer.
     private var started = false
     private var timerPaused: Bool = false
