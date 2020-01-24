@@ -37,7 +37,7 @@ extension ItemType {
             return "com.toxblh.mtmr.brightness"
         case .weather(interval: _, units: _, api_key: _, icon_type: _):
             return "com.toxblh.mtmr.weather"
-        case .moonphase(interval: _, units: _, api_key: _, icon_type: _):
+        case .moonphase(interval: _):
             return "com.toxblh.mtmr.moonphase"
         case .yandexWeather(interval: _):
             return "com.toxblh.mtmr.yandexWeather"
@@ -274,8 +274,8 @@ class TouchBarController: NSObject, NSTouchBarDelegate {
             }
         case let .weather(interval: interval, units: units, api_key: api_key, icon_type: icon_type):
             barItem = WeatherBarItem(identifier: identifier, interval: interval, units: units, api_key: api_key, icon_type: icon_type)
-        case let .moonphase(interval: interval, units: units, api_key: api_key, icon_type: icon_type):
-            barItem = MoonPhaseCalendarBarItem(identifier: identifier, interval: interval, units: units, api_key: api_key, icon_type: icon_type)
+        case let .moonphase:
+            barItem = MoonPhaseCalendarBarItem(identifier: identifier)
         case let .yandexWeather(interval: interval):
             barItem = YandexWeatherBarItem(identifier: identifier, interval: interval)
         case let .currency(interval: interval, from: from, to: to, full: full):
