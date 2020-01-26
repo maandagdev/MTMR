@@ -17,30 +17,23 @@ class MoonPhaseCalendarBarItem: CustomButtonTouchBarItem, Widget {
     private var tests = 1;
     init(identifier: NSTouchBarItem.Identifier) {
         activity = NSBackgroundActivityScheduler(identifier: "\(identifier.rawValue).updatecheck")
-        activity.interval = 2.0
-     
+        activity.interval = 100.0
         
         super.init(identifier: identifier, title: "")
         
         image = NSImage(named: NSImage.Name(moon_phase(yearParam: 2020, monthParam: 1, dayParam: 24)))
-      activity.repeats = true
-            activity.qualityOfService = .utility
-            activity.schedule { (completion: NSBackgroundActivityScheduler.CompletionHandler) in
-                self.tests = self.tests + 1;
-                DispatchQueue.main.async {
-                    
-                  
-                    let calendar = Calendar.current
-                      let date = Date()
-                    self.image = NSImage(named: NSImage.Name(self.moon_phase(yearParam: calendar.component(.year, from: date),
-                                                                             monthParam: calendar.component(.month, from: date),
-                                                                             dayParam: calendar.component(.day, from: date))))
-
-                    }
-                completion(NSBackgroundActivityScheduler.Result.finished)
+        activity.repeats = true
+        activity.qualityOfService = .utility
+        activity.schedule { (completion: NSBackgroundActivityScheduler.CompletionHandler) in
+            DispatchQueue.main.async {
+                let calendar = Calendar.current
+                let date = Date()
+                self.image = NSImage(named: NSImage.Name(self.moon_phase(yearParam: calendar.component(.year, from: date),
+                                                                         monthParam: calendar.component(.month, from: date),
+                                                                         dayParam: calendar.component(.day, from: date))))
             }
-        print(moon_phase(yearParam: 2020, monthParam: 1, dayParam: 24))
-        
+            completion(NSBackgroundActivityScheduler.Result.finished)
+        }
     }
     
     required init?(coder _: NSCoder) {
@@ -103,11 +96,6 @@ class MoonPhaseCalendarBarItem: CustomButtonTouchBarItem, Widget {
         default:
             return "error";
         }
-    }
- 
-    
-    func setWeather(text: String) {
-        title = text
     }
     
     deinit {
