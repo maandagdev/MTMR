@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0363831B23DB1842009B99AC /* MoonPhaseCalendarBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0363831A23DB1842009B99AC /* MoonPhaseCalendarBarItem.swift */; };
+		03CEC1BD23EB1D4A000994F7 /* CustomGroupItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CEC1BC23EB1D4A000994F7 /* CustomGroupItem.swift */; };
 		36300E83209F040900B31C71 /* SupportHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0008E542080286C003AD4DD /* SupportHelpers.swift */; };
 		36300E8F20A2CF3400B31C71 /* AppleScriptDefinitionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36300E8E20A2CF3400B31C71 /* AppleScriptDefinitionTests.swift */; };
 		36300E9120A2D2B200B31C71 /* BackgroundColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36300E9020A2D2B200B31C71 /* BackgroundColorTests.swift */; };
@@ -85,6 +86,7 @@
 
 /* Begin PBXFileReference section */
 		0363831A23DB1842009B99AC /* MoonPhaseCalendarBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonPhaseCalendarBarItem.swift; sourceTree = "<group>"; };
+		03CEC1BC23EB1D4A000994F7 /* CustomGroupItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomGroupItem.swift; sourceTree = "<group>"; };
 		36300E85209FD16700B31C71 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = SOURCE_ROOT; };
 		36300E8E20A2CF3400B31C71 /* AppleScriptDefinitionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleScriptDefinitionTests.swift; sourceTree = "<group>"; };
 		36300E9020A2D2B200B31C71 /* BackgroundColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundColorTests.swift; sourceTree = "<group>"; };
@@ -313,6 +315,7 @@
 				4CFF5E5B22E623DD00BFB1EE /* YandexWeatherBarItem.swift */,
 				B08126F0217BE19000A98970 /* WidgetProtocol.swift */,
 				B0F54A792295AC7D00B4C509 /* DarkModeBarItem.swift */,
+				03CEC1BC23EB1D4A000994F7 /* CustomGroupItem.swift */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -487,6 +490,7 @@
 				60669B4320AD8FA80074E817 /* GroupBarItem.swift in Sources */,
 				36C2ECDB207C3FE7003CDA33 /* ItemsParsing.swift in Sources */,
 				B0A7E9AA205D6AA400EEF070 /* KeyPress.swift in Sources */,
+				03CEC1BD23EB1D4A000994F7 /* CustomGroupItem.swift in Sources */,
 				36C2ECD7207B6DAE003CDA33 /* TimeTouchBarItem.swift in Sources */,
 				607EEA4D2087A8DA009DA5F0 /* CurrencyBarItem.swift in Sources */,
 				4CC9FEDC22FDEA65001512EB /* AMR_ANSIEscapeHelper.m in Sources */,
