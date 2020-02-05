@@ -274,7 +274,7 @@ class TouchBarController: NSObject, NSTouchBarDelegate {
             }
         case let .weather(interval: interval, units: units, api_key: api_key, icon_type: icon_type):
             barItem = WeatherBarItem(identifier: identifier, interval: interval, units: units, api_key: api_key, icon_type: icon_type)
-        case let .moonphase:
+        case .moonphase:
             barItem = MoonPhaseCalendarBarItem(identifier: identifier)
         case let .yandexWeather(interval: interval):
             barItem = YandexWeatherBarItem(identifier: identifier, interval: interval)

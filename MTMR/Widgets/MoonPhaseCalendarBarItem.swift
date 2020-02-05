@@ -14,23 +14,23 @@ class MoonPhaseCalendarBarItem: CustomButtonTouchBarItem, Widget {
     static var identifier: String = "com.toxblh.mtmr.moonPhase"
     
     private let activity: NSBackgroundActivityScheduler
-    private var tests = 1;
+    private let calendar = Calendar.current
+    private let date = Date()
     init(identifier: NSTouchBarItem.Identifier) {
         activity = NSBackgroundActivityScheduler(identifier: "\(identifier.rawValue).updatecheck")
         activity.interval = 100.0
         
         super.init(identifier: identifier, title: "")
         
-        image = NSImage(named: NSImage.Name(moon_phase(yearParam: 2020, monthParam: 1, dayParam: 24)))
+        DispatchQueue.main.async {
+            self.setMoonPhase();
+        }
+        
         activity.repeats = true
         activity.qualityOfService = .utility
         activity.schedule { (completion: NSBackgroundActivityScheduler.CompletionHandler) in
             DispatchQueue.main.async {
-                let calendar = Calendar.current
-                let date = Date()
-                self.image = NSImage(named: NSImage.Name(self.moon_phase(yearParam: calendar.component(.year, from: date),
-                                                                         monthParam: calendar.component(.month, from: date),
-                                                                         dayParam: calendar.component(.day, from: date))))
+                self.setMoonPhase();
             }
             completion(NSBackgroundActivityScheduler.Result.finished)
         }
@@ -97,7 +97,12 @@ class MoonPhaseCalendarBarItem: CustomButtonTouchBarItem, Widget {
             return "error";
         }
     }
-    
+    func setMoonPhase() {
+        self.image = NSImage(named: NSImage.Name(
+            self.moon_phase(yearParam: self.calendar.component(.year, from: self.date),
+                            monthParam: self.calendar.component(.month, from: self.date),
+                            dayParam: self.calendar.component(.day, from: self.date))))
+    }
     deinit {
         activity.invalidate()
     }
