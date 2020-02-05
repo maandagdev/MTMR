@@ -49,6 +49,8 @@ extension ItemType {
             return "com.toxblh.mtmr.music."
         case .group(items: _):
             return "com.toxblh.mtmr.groupBar."
+        case .customGroup(items: _):
+            return "com.toxblh.mtmr.customGroupBar."
         case .nightShift:
             return "com.toxblh.mtmr.nightShift."
         case .dnd:
@@ -286,6 +288,8 @@ class TouchBarController: NSObject, NSTouchBarDelegate {
             barItem = MusicBarItem(identifier: identifier, interval: interval, disableMarquee: disableMarquee)
         case let .group(items: items):
             barItem = GroupBarItem(identifier: identifier, items: items)
+        case let .customGroup(items: items):
+            barItem = CustomGroupBarItem(identifier: identifier, items: items)
         case .nightShift:
             barItem = NightShiftBarItem(identifier: identifier)
         case .dnd:
