@@ -12,35 +12,35 @@ class AppScrubberTouchBarItem: NSCustomTouchBarItem {
     private var autoResize: Bool = false
     private var widthConstraint: NSLayoutConstraint?
     private let filter: NSRegularExpression?
-
+    
     private var persistentAppIdentifiers: [String] = []
     private var runningAppsIdentifiers: [String] = []
-
+    
     private var frontmostApplicationIdentifier: String? {
         return NSWorkspace.shared.frontmostApplication?.bundleIdentifier
     }
-
+    
     private var applications: [DockItem] = []
     private var items: [DockBarItem] = []
-
+    
     init(identifier: NSTouchBarItem.Identifier, autoResize: Bool = false, filter: NSRegularExpression? = nil) {
         self.filter = filter
         super.init(identifier: identifier)
         self.autoResize = autoResize
         view = scrollView
-
+        
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(hardReloadItems), name: NSWorkspace.didLaunchApplicationNotification, object: nil)
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(hardReloadItems), name: NSWorkspace.didTerminateApplicationNotification, object: nil)
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(softReloadItems), name: NSWorkspace.didActivateApplicationNotification, object: nil)
-
+        
         persistentAppIdentifiers = AppSettings.dockPersistentAppIds
         hardReloadItems()
     }
-
+    
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     @objc func hardReloadItems() {
         applications = launchedApplications()
         applications += getDockPersistentAppsList()
@@ -78,7 +78,7 @@ class AppScrubberTouchBarItem: NSCustomTouchBarItem {
         scrollView.documentView = stackView
         stackView.scroll(visibleRect.origin)
     }
-
+    
     public func createAppButton(for app: DockItem) -> DockBarItem {
         let item = DockBarItem(app)
         item.isBordered = false
@@ -103,7 +103,7 @@ class AppScrubberTouchBarItem: NSCustomTouchBarItem {
             NSWorkspace.shared.launchApplication(withBundleIdentifier: bundleIdentifier!, options: [.default], additionalEventParamDescriptor: nil, launchIdentifier: nil)
         }
         softReloadItems()
-
+        
         // NB: if you can't open app which on another space, try to check mark
         // "When switching to an application, switch to a Space with open windows for the application"
         // in Mission control settings
@@ -126,7 +126,7 @@ class AppScrubberTouchBarItem: NSCustomTouchBarItem {
         } else {
             persistentAppIdentifiers.append(item.bundleIdentifier)
         }
-
+        
         AppSettings.dockPersistentAppIds = persistentAppIdentifiers
     }
     
@@ -143,43 +143,43 @@ class AppScrubberTouchBarItem: NSCustomTouchBarItem {
             }
             
             runningAppsIdentifiers.append(bundleIdentifier)
-
+            
             let dockItem = DockItem(bundleIdentifier: bundleIdentifier, icon: app.icon ?? getIcon(forBundleIdentifier: bundleIdentifier), pid: app.processIdentifier)
             returnable.append(dockItem)
         }
         return returnable
     }
-
+    
     public func getIcon(forBundleIdentifier bundleIdentifier: String? = nil, orPath path: String? = nil) -> NSImage {
         if let bundleIdentifier = bundleIdentifier, let appPath = NSWorkspace.shared.absolutePathForApplication(withBundleIdentifier: bundleIdentifier) {
             return NSWorkspace.shared.icon(forFile: appPath)
         }
-
+        
         if let path = path {
             return NSWorkspace.shared.icon(forFile: path)
         }
-
+        
         let genericIcon = NSImage(contentsOfFile: "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericDocumentIcon.icns")
         return genericIcon ?? NSImage(size: .zero)
     }
-
+    
     public func getDockPersistentAppsList() -> [DockItem] {
         var returnable: [DockItem] = []
-
+        
         for bundleIdentifier in persistentAppIdentifiers {
             if !runningAppsIdentifiers.contains(bundleIdentifier) {
                 let dockItem = DockItem(bundleIdentifier: bundleIdentifier, icon: getIcon(forBundleIdentifier: bundleIdentifier))
                 returnable.append(dockItem)
             }
         }
-
+        
         return returnable
     }
 }
 
 public class DockItem: NSObject {
     var bundleIdentifier: String!, icon: NSImage!, pid: Int32!
-
+    
     convenience init(bundleIdentifier: String, icon: NSImage, pid: Int32? = nil) {
         self.init()
         self.bundleIdentifier = bundleIdentifier
@@ -214,7 +214,7 @@ class DockBarItem: CustomButtonTouchBarItem {
         
         image = app.icon
         image?.size = NSSize(width: iconWidth, height: iconWidth)
-
+        
         killGestureRecognizer = LongPressGestureRecognizer(target: self, action: #selector(firePanGestureRecognizer))
         killGestureRecognizer.allowedTouchTypes = .direct
         killGestureRecognizer.recognizeTimeout = 1.5

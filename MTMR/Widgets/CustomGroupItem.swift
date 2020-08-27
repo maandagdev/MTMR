@@ -24,21 +24,60 @@ class CustomGroupBarItem: CustomButtonTouchBarItem, NSTouchBarDelegate {
     var scrollArea: NSCustomTouchBarItem?
     var centerScrollArea = NSTouchBarItem.Identifier("com.toxblh.mtmr.scrollArea.".appending(UUID().uuidString))
     
+    
+    
+    var touchar: NSTouchBar = NSTouchBar();
+    var nsTouchItems: [NSTouchBarItem.Identifier] = []
+    private let activity: NSBackgroundActivityScheduler
+    
     init(identifier: NSTouchBarItem.Identifier, items: [BarItemDefinition]) {
         jsonItems = items
+        activity = NSBackgroundActivityScheduler(identifier: "\(identifier.rawValue).updatecheck")
+        activity.interval = 5.0
+        //touchar = nil;
         super.init(identifier: identifier, title: "")
         
         
         tapClosure = { [weak self] in self?.showGroupBar() }
-        // longTapClosure = { [weak self] in self?.startStopRest() }
+        //         longTapClosure = { [weak self] in self?.startStopRest() }
+        
+        
+        activity.repeats = true
+        activity.qualityOfService = .utility
+        activity.schedule { (completion: NSBackgroundActivityScheduler.CompletionHandler) in
+            DispatchQueue.main.async {
+//                self.setMoonPhase();
+            }
+            completion(NSBackgroundActivityScheduler.Result.finished)
+        }
+    }
+    
+    func setMoonPhase() {
+        
+        // minimizeSystemModal(  TouchBarController.shared.touchBar)
+        DispatchQueue.main.async {
+            print("bye")
+            //TouchBarController.shared.touchBar.defaultItemIdentifiers = []
+            TouchBarController.shared.touchBar.defaultItemIdentifiers = self.nsTouchItems;
+                
+        }
+    }
+    deinit {
+                activity.invalidate()
     }
     
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     @objc func showGroupBar() {
+        touchar = TouchBarController.shared.touchBar
+        if let oldBar = TouchBarController.shared.touchBar {
+            
+            minimizeSystemModal(oldBar)
+        }
+        
+        TouchBarController.shared.touchBar = NSTouchBar()
         itemDefinitions = [:]
         items = [:]
         leftIdentifiers = []
@@ -59,6 +98,7 @@ class CustomGroupBarItem: CustomButtonTouchBarItem, NSTouchBarDelegate {
         TouchBarController.shared.touchBar.defaultItemIdentifiers = []
         TouchBarController.shared.touchBar.defaultItemIdentifiers = leftIdentifiers + [centerScrollArea] + rightIdentifiers
         
+        nsTouchItems = TouchBarController.shared.touchBar.defaultItemIdentifiers
         if AppSettings.showControlStripState {
             presentSystemModal(TouchBarController.shared.touchBar, systemTrayItemIdentifier: .controlStripItem)
         } else {
