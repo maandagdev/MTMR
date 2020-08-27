@@ -37,31 +37,8 @@ class CustomGroupBarItem: CustomButtonTouchBarItem, NSTouchBarDelegate {
         //touchar = nil;
         super.init(identifier: identifier, title: "")
         
-        
-        tapClosure = { [weak self] in self?.showGroupBar() }
-        //         longTapClosure = { [weak self] in self?.startStopRest() }
-        
-        
-        activity.repeats = true
-        activity.qualityOfService = .utility
-        activity.schedule { (completion: NSBackgroundActivityScheduler.CompletionHandler) in
-            DispatchQueue.main.async {
-//                self.setMoonPhase();
-            }
-            completion(NSBackgroundActivityScheduler.Result.finished)
-        }
     }
     
-    func setMoonPhase() {
-        
-        // minimizeSystemModal(  TouchBarController.shared.touchBar)
-        DispatchQueue.main.async {
-            print("bye")
-            //TouchBarController.shared.touchBar.defaultItemIdentifiers = []
-            TouchBarController.shared.touchBar.defaultItemIdentifiers = self.nsTouchItems;
-                
-        }
-    }
     deinit {
                 activity.invalidate()
     }
